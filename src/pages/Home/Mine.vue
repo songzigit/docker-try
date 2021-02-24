@@ -1,13 +1,13 @@
 <template>
   <div>
-    Mine
+    <h1>Mine</h1>
   </div>
 </template>
-<script>
-export default {
-  
-}
-</script>
-<style lang="scss">
+<style lang="scss" scoped>
   
 </style>
+<script>
+export default {
+
+}
+</script>

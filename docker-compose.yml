@@ -5,6 +5,7 @@ services:
     build: 
       context: .
       dockerfile: Dockerfile.api
+    container_name: music_api
     ports: 
       - "3000:3000"
   
@@ -12,6 +13,9 @@ services:
     build: 
       context: .
       dockerfile: Dockerfile.app
+    container_name: music_app
+    links: 
+      - api:api
     working_dir: /app
     volumes: 
       - './:/app'

@@ -6,13 +6,6 @@
   float: right;
 }
 
-.fixed-bottom {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-}
-
 .ellipsis {
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -28,4 +21,14 @@
 
 .content {
   flex: 1;
+}
+
+.list {
+  display: flex;
+  list-style: none;
+  justify-content: space-around;
+  text-align: center;
+  .list-item {
+    flex: 1;
+  }
 }

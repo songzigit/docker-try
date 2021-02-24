@@ -15,29 +15,34 @@ const routes = [
         path: '/discovery',
         component: () => import('@/pages/Home/Discovery')
       },
-      {
-        name: 'podcast',
-        path: '/podcast',
-        component: () => import('@/pages/Home/Podcast')
-      }, {
-        name: 'mine',
-        path: '/mine',
-        component: () => import('@/pages/Home/Mine')
-      }, {
-        name: 'k-song',
-        path: '/k-song',
-        component: () => import('@/pages/Home/KSong')
-      }, {
-        name: 'cloud-village',
-        path: '/cloud-village',
-        component: () => import('@/pages/Home/CloudVillage')
-      }
+       {
+         name: 'podcast',
+         path: '/podcast',
+         component: () => import('@/pages/Home/Podcast')
+       }, {
+         name: 'mine',
+         path: '/mine',
+         component: () => import('@/pages/Home/Mine')
+       }, {
+         name: 'ksong',
+         path: '/ksong',
+         component: () => import('@/pages/Home/KSong')
+       }, {
+         name: 'cloud-village',
+         path: '/cloud-village',
+         component: () => import('@/pages/Home/CloudVillage')
+       }
     ]
-  },
-  {
-    name: '404',
-    path: '*',
-    component: () => import('@/pages/404')
+   },
+   {
+     name: 'player',
+     path: '/player',
+     component: ()=>import('@/pages/Player')
+   },
+   {
+     name: '404',
+     path: '*',
+     component: () => import('@/pages/404')
   }
 ];
 
