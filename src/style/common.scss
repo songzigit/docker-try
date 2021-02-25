@@ -19,8 +19,20 @@
   flex-direction: column;
 }
 
+.container {
+  display: flex;
+}
+
 .content {
   flex: 1;
+  overflow: auto;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+.flex-col {
+  flex-direction: column;
 }
 
 .list {
@@ -30,5 +42,9 @@
   text-align: center;
   .list-item {
     flex: 1;
+  }
+  .constrained {
+    flex: 1;
+    overflow: auto;
   }
 }

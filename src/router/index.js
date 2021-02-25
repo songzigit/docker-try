@@ -35,9 +35,9 @@ const routes = [
     ]
    },
    {
-     name: 'player',
-     path: '/player',
-     component: ()=>import('@/pages/Player')
+     name: 'main-player',
+     path: '/main-player',
+     component: ()=>import('@/pages/MainPlayer')
    },
    {
      name: '404',

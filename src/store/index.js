@@ -15,6 +15,12 @@ const mutations = {
   },
   closeDrawer(state) {
     state.showDrawer = false;
+  },
+  startPlayer(state) {
+    state.playing = true;
+  },
+  stopPlayer(state) {
+    state.playing = false;
   }
 };
 const store = new Vuex.Store({

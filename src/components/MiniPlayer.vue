@@ -13,7 +13,7 @@
 export default {
   methods:{
     showPlayer(){
-      this.$router.push('player');
+      this.$router.push('main-player');
     }
   }
 }
