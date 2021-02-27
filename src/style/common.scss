@@ -28,6 +28,29 @@
   overflow: auto;
 }
 
+.pop-up {
+  z-index: $topmost-layer;
+  display: flex;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(111,111,111, 0.4);
+  .content {
+    max-height: 60%;
+    background-color: #fff;
+  }
+  .center {
+    align-self: center;
+    justify-content: center;
+  }
+  .bottom {
+    align-self: flex-end;
+    justify-content: center;
+  }
+}
+
 .flex-row {
   flex-direction: row;
 }

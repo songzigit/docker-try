@@ -1,6 +1,8 @@
 <template>
   <div class="page">
-    <router-view class="content"></router-view>
+    <keep-alive>
+      <router-view class="content"></router-view>
+    </keep-alive>
     <MiniPlayer></MiniPlayer>
     <ul class="bottom-nav list" @click="navPage">
       <li class="list-item" data-page="discovery">发现</li>

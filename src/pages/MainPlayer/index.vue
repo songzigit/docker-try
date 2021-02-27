@@ -27,12 +27,14 @@
         <span>04:10</span>
       </div>
       <div class="list play-menu">
-        <audio :src="songUrl" ref="audio" hidden></audio>
+        <Player hidden ref="player" />
         <div>上一首</div>
         <div @click="togglePlaying">播放</div>
         <div>下一首</div>
+        <div @click="showHistory">列表</div>
       </div>
     </div>
+    <PlayList v-if="showPlayList" @hidePlayList="hideHistory" />
   </div>
 </template>
 <style lang="scss" scoped>
@@ -65,22 +67,30 @@
 </style>
 <script>
 import Progress from "@/components/Progress";
+import Player from "@/components/Player";
+import PlayList from "@/pages/MainPlayer/PlayList";
 import axios from "axios";
 import api from "@/api";
-import { mapState, mapMutations } from "vuex";
+
+import { mapState } from "vuex";
 
 export default {
-  components: { Progress },
+  components: { Progress, Player, PlayList },
   data() {
     return {
       lyricList: [],
       showLyric: false, // 是否显示歌词
       songName: "歌曲", // 歌曲名称
       albumCover: "", // 封面地址
-      songUrl: "", // 歌曲播放地址
-      audio: null, // 音频播放器
-      songId: "", // 当前播放的歌曲 id
+      player: null, // 音频播放器
+      showPlayList: false, // 是否显示播放列表
     };
+  },
+  computed: {
+    ...mapState(["songId"]),
+  },
+  watch: {
+    songId: 'initData'
   },
   created() {
     // const { id } = this.$route.query;
@@ -89,27 +99,18 @@ export default {
     //   return;
     // }
     // this.songId = id;
-    this.songId = 347230;
     this.initData();
     this.$nextTick(function () {
-      this.audio = this.$refs.audio;
+      this.player = this.$refs.player;
     });
   },
-  computed: {
-    ...mapState(["playing"]),
-  },
   methods: {
-    ...mapMutations(["startPlayer", "stopPlayer"]),
-
     /**
      * 页面数据初始化
      */
     initData() {
       this.getDetail();
       this.getLyric();
-      this.getSongUrl().then(() => {
-        this.togglePlaying();
-      });
     },
     /**
      * 获取歌词
@@ -157,39 +158,25 @@ export default {
         });
     },
     /**
-     * 获取音乐播放地址
-     */
-    getSongUrl() {
-      return new Promise((resolve, reject) => {
-        axios
-          .get(api.songUrl, {
-            params: {
-              id: this.songId,
-            },
-          })
-          .then(({ status, data }) => {
-            if (status === 200) {
-              const song = data.data[0];
-              this.songUrl = song.url || "";
-              resolve();
-            }
-          });
-      });
-    },
-    /**
      * 切换音乐播放状态
      */
     togglePlaying() {
-      if (!this.audio) {
+      if (!this.player) {
         return;
       }
-      if (this.playing) {
-        this.audio.pause();
-        this.stopPlayer();
-      } else {
-        this.audio.play();
-        this.startPlayer();
-      }
+      this.player.togglePlaying();
+    },
+    /**
+     * 展示播放历史列表
+     */
+    showHistory() {
+      this.showPlayList = true;
+    },
+    /**
+     * 隐藏播放历史列表
+     */
+    hideHistory() {
+      this.showPlayList = false;
     },
     /**
      * 切换显示内容
