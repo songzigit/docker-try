@@ -28,6 +28,10 @@
   overflow: auto;
 }
 
+.pos-rel {
+  position: relative;
+}
+
 .pop-up {
   z-index: $topmost-layer;
   display: flex;

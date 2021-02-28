@@ -17,7 +17,7 @@
       </li>
     </ul>
     <div class="content">
-      <ul class="d-list fullh flex-col">
+      <ul>
         <!-- 单曲 start -->
         <li
           v-for="(item, index) in result.songs"
@@ -53,6 +53,84 @@
           </div>
         </li>
         <!-- 歌单 end -->
+        <!-- 歌手 start -->
+        <li
+          v-for="(item, index) in result.artists"
+          :key="index"
+          class="l-item"
+          @click="toPage"
+          data-page="user-home"
+          :data-id="item.id"
+        >
+          <div class="container">
+            <img :src="item.picUrl" alt="" class="album-cover" />
+            <div class="content">
+              <span v-if="item.name">{{ item.name }}</span>
+              <span v-if="item.trans">({{ item.trans }})</span>
+            </div>
+          </div>
+        </li>
+        <!-- 歌手 end -->
+        <!-- 用户 start -->
+        <li
+          v-for="(item, index) in result.userprofiles"
+          :key="index"
+          class="l-item"
+          @click="toPage"
+          data-page="user-home"
+          :data-id="item.id"
+        >
+          <div class="container user">
+            <img :src="item.avatarUrl" alt="" class="avatar-cover" />
+            <div class="content" v-if="item.nickname">
+              {{ item.nickname }}
+            </div>
+            <button v-if="!item.followed" class="follow-btn">+ 关注</button>
+          </div>
+        </li>
+        <!-- 用户 end -->
+        <!-- 专辑 start -->
+        <li
+          v-for="(item, index) in result.albums"
+          :key="index"
+          class="l-item"
+          @click="toPage"
+          data-page="album-detail"
+          :data-id="item.id"
+        >
+          <div class="container">
+            <img :src="item.picUrl" alt="" class="album-cover" />
+            <div class="content">
+              <div>
+                <span v-if="item.name">{{ item.name }}</span>
+              </div>
+              <div>
+                <span v-if="item.artist">{{ item.artist.name }}</span>
+                <span v-if="item.containedSong">
+                  包含单曲{{ item.containedSong }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </li>
+        <!-- 专辑 end -->
+        <!-- 视频 start -->
+        <li
+          v-for="(item, index) in result.videos"
+          :key="index"
+          class="l-item video-cover"
+          @click="toPage"
+          data-page="album-detail"
+          :data-id="item.id"
+        >
+          <div class="container flex-col">
+            <img :src="item.coverUrl" alt="" />
+            <div>
+              {{ item.title }}
+            </div>
+          </div>
+        </li>
+        <!-- 视频 end -->
       </ul>
     </div>
     <MiniPlayer></MiniPlayer>
@@ -68,12 +146,33 @@
   border-bottom: solid 1px $main-color;
 }
 .l-item {
-  margin: 10px;
+  padding: 10px;
 }
 .album-cover {
   width: 60px;
   height: 60px;
   border-radius: 4px;
+}
+.avatar-cover {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+}
+.follow-btn {
+  color: $main-color;
+  background-color: #fff;
+  border: solid 1px $main-color;
+  border-radius: 16px;
+  padding: 4px 10px;
+}
+.user {
+  align-items: center;
+}
+.video-cover {
+  width: 50%;
+  padding: 5px;
+  display: inline-block;
+  box-sizing: border-box;
 }
 </style>
 <script>

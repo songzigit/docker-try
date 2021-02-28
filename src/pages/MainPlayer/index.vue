@@ -5,8 +5,13 @@
       <div>{{ songName }}</div>
     </div>
     <div class="content" @click="switchContent">
-      <div v-show="!showLyric" class="album">
+      <div v-show="!showLyric" class="album flex-col">
         <img :src="albumCover" alt="封面" class="album-cover" />
+        <div @click.stop="userOp" class="user-btns">
+          <span data-act="favor" class="btn">喜爱</span>
+          <span data-act="download" class="btn">下载</span>
+          <span data-act="comments" class="btn">评论</span>
+        </div>
       </div>
       <div class="list flex-col" v-show="showLyric">
         <div class="progress-bar">
@@ -52,12 +57,20 @@
 }
 .album {
   height: 100%;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   .album-cover {
     width: 300px;
     border-radius: 50%;
+  }
+  .user-btns {
+    position: absolute;
+    bottom: 0;
+    .btn {
+      padding: 10px 20px;
+    }
   }
 }
 .play-menu {
@@ -87,7 +100,15 @@ export default {
     ...mapState(["songId"]),
   },
   watch: {
-    songId: "initData",
+    songId: function (val, oldVal) {
+      if (oldVal) {
+        // 修改页面参数，否则刷新后页面数据丢失
+        this.$router.replace({
+          query: { id: this.songId },
+        });
+        this.initData();
+      }
+    },
   },
   created() {
     const { id } = this.$route.query;
@@ -186,6 +207,22 @@ export default {
      */
     back() {
       this.$router.go(-1);
+    },
+    /**
+     * 用户点击底部的喜爱、下载、评论等按钮
+     */
+    userOp(e) {
+      const { act } = e.target.dataset;
+      switch (act) {
+        case "comments":
+          this.$router.push({
+            name: "comments",
+            query: { songId: this.songId },
+          });
+          break;
+        default:
+          break;
+      }
     },
   },
 };

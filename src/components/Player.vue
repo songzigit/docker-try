@@ -1,6 +1,6 @@
 <template>
   <div>
-    <audio :src="songUrl" ref="audio"></audio>
+    <audio :src="songUrl" ref="audio" @ended="playEnd"></audio>
   </div>
 </template>
 <style lang="scss" scoped>
@@ -153,6 +153,12 @@ export default {
         this.startPlayer();
       }
     },
+    /**
+     * 播放结束回调
+     */
+    playEnd(){
+      this.audio.play();
+    }
   },
 };
 </script>

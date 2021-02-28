@@ -46,7 +46,7 @@ const routes = [
   },
   {
     name: 'main-player',
-    path: '/main-player',
+    path: '/song',
     component: () => import('@/pages/MainPlayer')
   },
   {
@@ -73,6 +73,16 @@ const routes = [
     name: 'search-result',
     path: '/search/result',
     component: () => import('@/pages/Search/Result')
+  },
+  {
+    name: 'user-home',
+    path: '/user-home',
+    component: () => import('@/pages/User/Home')
+  },
+  {
+    name: 'comments',
+    path: '/comments',
+    component: () => import('@/pages/Comments')
   },
   {
     name: '404',

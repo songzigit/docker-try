@@ -10,9 +10,10 @@ import Vue from "vue";
 export default {
   created() {
     this.$nextTick(function () {
-      Vue.prototype.player = this.$refs.player;
+      const player = this.$refs.player;
+      Vue.prototype.player = player;
     });
-    console.log(document.cookie)
+    console.log(document.cookie);
   },
   components: { Player },
 };

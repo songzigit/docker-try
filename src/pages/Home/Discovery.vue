@@ -104,7 +104,6 @@ export default {
     },
     toPage(e) {
       const { page, id } = e.currentTarget.dataset;
-      console.log(page)
       let query = {};
       if (page === "album-detail") {
         query = { id };
