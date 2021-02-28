@@ -17,39 +17,79 @@ export default {
     return {
       songUrl: "", // 歌曲播放地址
       audio: null, // 音频播放元素
+      history: "", // 存在 localStorage 的播放历史列表
     };
   },
   computed: {
     ...mapState(["playing", "songId"]),
+    historyList() {
+      return this.history ? this.history.split(",") : [];
+    },
   },
   created() {
-    this.getSongUrl();
+    this.initData();
     this.$nextTick(function () {
       // 获取播放控件
       this.audio = this.$refs.audio;
     });
-    this.$obs.on(localKey.playSong, (id) => {
-      id && (this.songId = id);
-      this.stopPlaying();
-    });
   },
   watch: {
-    songId: function () {
-      // id 改变重新加载数据并开始播放
-      this.getSongUrl().then(this.startPlaying);
+    songId: function (val) {
+      this.initData();
+      this.addHistory(val);
     },
   },
   methods: {
     ...mapMutations(["startPlayer", "stopPlayer"]),
 
     /**
+     * 初始化数据
+     */
+    initData() {
+      if (this.songId) {
+        this.getSongUrl().then(() => {
+          this.startPlaying();
+        });
+        this.history = this.getHistory();
+      }
+    },
+
+    /**
+     * 获取播放历史
+     */
+    getHistory() {
+      return localStorage.getItem(localKey.player_history) || "";
+    },
+
+    /**
+     * 更新播放历史
+     */
+    updateHistory() {
+      localStorage.setItem(localKey.player_history, this.historyList);
+      this.history = this.getHistory();
+    },
+
+    /**
      * 添加播放历史
      */
-    addHistory(id) {},
+    addHistory(id) {
+      if (this.history.includes(id)) {
+        this.deleteHistory(id);
+      }
+      this.historyList.unshift(id);
+      this.updateHistory();
+    },
     /**
      * 删除播放历史
      */
-    deleteHistory(id) {},
+    deleteHistory(id) {
+      this.historyList.forEach((el, index) => {
+        if (el === String(id)) {
+          this.historyList.splice(index, 1);
+        }
+      });
+      this.updateHistory();
+    },
     /**
      * 清空播放列表
      */

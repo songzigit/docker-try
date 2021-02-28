@@ -1,10 +1,8 @@
 <template>
   <div class="page">
-    <keep-alive>
-      <router-view class="content"></router-view>
-    </keep-alive>
+    <router-view class="content"></router-view>
     <MiniPlayer></MiniPlayer>
-    <ul class="bottom-nav list" @click="navPage">
+    <ul class="bottom-nav list" @click="toPage">
       <li class="list-item" data-page="discovery">发现</li>
       <li class="list-item" data-page="podcast">播客</li>
       <li class="list-item" data-page="mine">我的</li>
@@ -18,7 +16,7 @@ import MiniPlayer from "@/components/MiniPlayer";
 export default {
   components: { MiniPlayer },
   methods: {
-    navPage(e) {
+    toPage(e) {
       const { page } = e.target.dataset;
       this.$router.push(page);
     },

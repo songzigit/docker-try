@@ -50,6 +50,16 @@ const routes = [
     component: () => import('@/pages/MainPlayer')
   },
   {
+    name: 'album-detail',
+    path: '/album-detail',
+    component: () => import('@/pages/AlbumDetail')
+  },
+  {
+    name: 'video-detail',
+    path: '/video-detail',
+    component: () => import('@/pages/VideoDetail')
+  },
+  {
     name: '404',
     path: '*',
     component: () => import('@/pages/404')

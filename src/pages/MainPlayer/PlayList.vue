@@ -6,11 +6,11 @@
         :key="index"
         @click="clkItem"
         class="song-item"
-        :data-index="index"
+        :data-id="item.id"
       >
         <span class="song-name">{{ item.name }}</span>
         <span class="song-singer">{{ item.singer }}</span>
-        <span class="fr">删除</span>
+        <span class="fr del">删除</span>
       </div>
     </div>
   </div>
@@ -32,8 +32,6 @@ import axios from "axios";
 import api from "@/api";
 
 import { mapMutations } from "vuex";
-
-import localKey from "@/util/local_key";
 
 export default {
   created() {
@@ -62,26 +60,21 @@ export default {
      */
     clkItem(e) {
       this.$emit("hidePlayList");
-      const { index } = e.currentTarget.dataset;
-      if (!index) return;
-      const song = this.playList[index];
-      this.setSong(song.id);
+      const { id } = e.currentTarget.dataset;
+      if (e.target.classList.contains("del")) {
+        this.player.deleteHistory(id);
+        return;
+      }
+      this.setSong(id);
     },
     /**
      * 获取播放历史列表
      */
     getHistory() {
-      const history =
-        localStorage.getItem(localKey.player_history) || "347230,347231";
+      const history = this.player.getHistory();
       if (history) {
         this.getDetails(history);
       }
-    },
-    /**
-     * 更新播放历史
-     */
-    updateHistory() {
-      localStorage.setItem(localKey.player_history, this.history);
     },
     /**
      * 获取歌曲详情
@@ -98,10 +91,10 @@ export default {
             const { songs } = data;
             songs &&
               songs.forEach((song) => {
-                const { al = {}, ar = [] } = song;
+                const { ar = [] } = song;
                 this.playList.push({
-                  id: al.id,
-                  name: al.name,
+                  id: song.id,
+                  name: song.name,
                   singer: ar[0] && ar[0].name,
                 });
               });

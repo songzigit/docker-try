@@ -27,7 +27,6 @@
         <span>04:10</span>
       </div>
       <div class="list play-menu">
-        <Player hidden ref="player" />
         <div>上一首</div>
         <div @click="togglePlaying">播放</div>
         <div>下一首</div>
@@ -67,22 +66,20 @@
 </style>
 <script>
 import Progress from "@/components/Progress";
-import Player from "@/components/Player";
 import PlayList from "@/pages/MainPlayer/PlayList";
 import axios from "axios";
 import api from "@/api";
 
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 
 export default {
-  components: { Progress, Player, PlayList },
+  components: { Progress, PlayList },
   data() {
     return {
       lyricList: [],
       showLyric: false, // 是否显示歌词
       songName: "歌曲", // 歌曲名称
       albumCover: "", // 封面地址
-      player: null, // 音频播放器
       showPlayList: false, // 是否显示播放列表
     };
   },
@@ -90,21 +87,17 @@ export default {
     ...mapState(["songId"]),
   },
   watch: {
-    songId: 'initData'
+    songId: "initData",
   },
   created() {
-    // const { id } = this.$route.query;
-    // if (!id) {
-    //   console.error("歌曲 id 不能为空");
-    //   return;
-    // }
-    // this.songId = id;
-    this.initData();
-    this.$nextTick(function () {
-      this.player = this.$refs.player;
-    });
+    const { id } = this.$route.query;
+    if (this.songId || id) {
+      id && this.setSong(id);
+      this.initData();
+    }
   },
   methods: {
+    ...mapMutations(["setSong"]),
     /**
      * 页面数据初始化
      */

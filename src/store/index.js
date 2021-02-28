@@ -7,7 +7,7 @@ const state = {
   showDrawer: false,
   playing: false, // 是否播放中
   login: false, // 是否登录
-  songId: 347230 // 当前播放的歌曲 id
+  songId: null // 当前播放的歌曲 id
 };
 
 const mutations = {

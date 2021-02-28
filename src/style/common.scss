@@ -71,3 +71,21 @@
     overflow: auto;
   }
 }
+
+.d-list {
+  display: flex;
+  list-style: none;
+  overflow: auto;
+}
+
+.fullw {
+  width: 100%;
+}
+
+.fullh {
+  height: 100%;
+}
+
+.none-scrollbar::-webkit-scrollbar {
+  display: none;
+}
