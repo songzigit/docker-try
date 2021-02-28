@@ -18,7 +18,7 @@ export default {
     this.getRecommends();
   },
   methods: {
-    ...mapMutations("setSong"),
+    ...mapMutations(["setSong"]),
     /**
      *
      */

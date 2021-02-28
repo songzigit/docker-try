@@ -1,33 +1,45 @@
 <template>
-  <div>
-    <h1 @click="toPage" data-page="daily-recommend">每日推荐</h1>
-    <section>
-      <div>
-        <span class="header">推荐歌单</span>
-        <span class="fr">更多</span>
+  <div class="container flex-col">
+    <div class="container search">
+      <span>侧边栏</span>
+      <div class="content" @click="toPage" data-page="search">
+        <span>placeholder</span>
       </div>
-      <ul class="d-list fullw none-scrollbar">
-        <li
-          v-for="(item, index) in recommendList"
-          :key="index"
-          class="cover-con"
-          :data-id="item.id"
-          @click="toPage"
-          data-page="album-detail"
-        >
-          <div class="cover">
-            <img :src="item.picUrl" :alt="item.copywriter" />
-            <span class="cnt">{{ item.playCount }}</span>
-          </div>
-          <div>
-            {{ item.name }}
-          </div>
-        </li>
-      </ul>
-    </section>
+      <span>识曲</span>
+    </div>
+    <div class="content">
+      <h1 @click="toPage" data-page="daily-recommend">每日推荐</h1>
+      <section>
+        <div>
+          <span class="header">推荐歌单</span>
+          <span class="fr" data-page="album-square" @click="toPage">更多</span>
+        </div>
+        <ul class="d-list fullw none-scrollbar">
+          <li
+            v-for="(item, index) in recommendList"
+            :key="index"
+            class="cover-con"
+            :data-id="item.id"
+            @click="toPage"
+            data-page="album-detail"
+          >
+            <div class="cover">
+              <img :src="item.picUrl" :alt="item.copywriter" />
+              <span class="cnt">{{ item.playCount }}</span>
+            </div>
+            <div>
+              {{ item.name }}
+            </div>
+          </li>
+        </ul>
+      </section>
+    </div>
   </div>
 </template>
 <style lang="scss" scoped>
+.search {
+  line-height: 50px;
+}
 .header {
   font-weight: 600;
   font-size: 20px;
@@ -92,6 +104,7 @@ export default {
     },
     toPage(e) {
       const { page, id } = e.currentTarget.dataset;
+      console.log(page)
       let query = {};
       if (page === "album-detail") {
         query = { id };

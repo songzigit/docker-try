@@ -119,14 +119,18 @@ export default {
           if (status === 200) {
             const { lrc = {} } = data;
             const lyric = lrc.lyric || "";
-            const lyricList = lyric.split("\n");
-            lyricList.forEach((line) => {
-              const reg = /(\[.+\]\s*)(.+)/;
-              const result = line.match(reg) || [];
-              if (result) {
-                result[2] && this.lyricList.push(result[2]);
-              }
-            });
+            const lyricList = lyric ? lyric.split("\n") : [];
+            if (lyricList.length) {
+              lyricList.forEach((line) => {
+                const reg = /(\[.+\]\s*)(.+)/;
+                const result = line.match(reg) || [];
+                if (result[2]) {
+                  result[2] && this.lyricList.push(result[2]);
+                }
+              });
+            } else {
+              this.lyricList = [];
+            }
           }
         });
     },

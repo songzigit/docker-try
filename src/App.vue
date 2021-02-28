@@ -12,6 +12,7 @@ export default {
     this.$nextTick(function () {
       Vue.prototype.player = this.$refs.player;
     });
+    console.log(document.cookie)
   },
   components: { Player },
 };

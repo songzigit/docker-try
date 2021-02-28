@@ -60,6 +60,21 @@ const routes = [
     component: () => import('@/pages/VideoDetail')
   },
   {
+    name: 'album-square',
+    path: '/album-square',
+    component: () => import('@/pages/AlbumSquare')
+  },
+  {
+    name: 'search',
+    path: '/search',
+    component: () => import('@/pages/Search')
+  },
+  {
+    name: 'search-result',
+    path: '/search/result',
+    component: () => import('@/pages/Search/Result')
+  },
+  {
     name: '404',
     path: '*',
     component: () => import('@/pages/404')
