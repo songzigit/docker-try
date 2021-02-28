@@ -120,8 +120,8 @@
           :key="index"
           class="l-item video-cover"
           @click="toPage"
-          data-page="album-detail"
-          :data-id="item.id"
+          data-page="video-detail"
+          :data-id="item.vid"
         >
           <div class="container flex-col">
             <img :src="item.coverUrl" alt="" />
@@ -225,9 +225,14 @@ export default {
           code: 1009,
         },
       ],
-      cur: 1, // 当前选中的 tab 下标
+      cur: 3, // 当前选中的 tab 下标
       result: {},
     };
+  },
+  computed: {
+    type() {
+      return this.tabs[this.cur].code;
+    },
   },
   created() {
     const { keywords } = this.$route.query;
@@ -241,12 +246,12 @@ export default {
      * 搜索结果
      * type 可选
      */
-    search(type) {
+    search() {
       axios
         .get(api.search, {
           params: {
             keywords: this.keywords,
-            type: type,
+            type: this.type,
           },
         })
         .then(({ status, data }) => {
@@ -262,7 +267,7 @@ export default {
     switchTab(e) {
       const { tab, id } = e.currentTarget.dataset;
       this.cur = +id;
-      this.search(tab);
+      this.search();
     },
     /**
      * 跳转指定页面

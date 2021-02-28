@@ -128,6 +128,7 @@ export default {
     startPlaying() {
       if (this.audio) {
         this.songUrl && this.audio.play();
+        this.startPlayer();
       }
     },
     /**
@@ -136,6 +137,7 @@ export default {
     stopPlaying() {
       if (this.audio) {
         this.audio.pause();
+        this.stopPlayer();
       }
     },
     /**
@@ -145,20 +147,14 @@ export default {
       if (!this.audio) {
         return;
       }
-      if (this.playing) {
-        this.stopPlaying();
-        this.stopPlayer();
-      } else {
-        this.startPlaying();
-        this.startPlayer();
-      }
+      this.playing ? this.stopPlaying() : this.startPlaying();
     },
     /**
      * 播放结束回调
      */
-    playEnd(){
+    playEnd() {
       this.audio.play();
-    }
+    },
   },
 };
 </script>
