@@ -37,7 +37,7 @@ export default {
      * 获取视频播放地址
      */
     getVideoUrl() {
-      return new Promise((resolve) => {
+      return new Promise((resolve, reject) => {
         axios
           .get(api.videoUrl, {
             params: {
@@ -50,6 +50,8 @@ export default {
               if (urls.length) {
                 this.videoUrl = urls[0].url;
                 resolve();
+              } else {
+                reject();
               }
             }
           });

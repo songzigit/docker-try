@@ -1,6 +1,12 @@
 <template>
   <div>
-    <audio :src="songUrl" ref="audio" @ended="playEnd"></audio>
+    <audio
+      :src="songUrl"
+      ref="audio"
+      @ended="playEnd"
+      @timeupdate="timeUpdate"
+      @durationchange="durationchange"
+    ></audio>
   </div>
 </template>
 <style lang="scss" scoped>
@@ -21,7 +27,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["playing", "songId"]),
+    ...mapState(["playing", "songId", "duration", "progress"]),
     historyList() {
       return this.history ? this.history.split(",") : [];
     },
@@ -40,7 +46,13 @@ export default {
     },
   },
   methods: {
-    ...mapMutations(["startPlayer", "stopPlayer"]),
+    ...mapMutations([
+      "startPlayer",
+      "stopPlayer",
+      "setPlayerProgress",
+      "setPlayerVolume",
+      "setDuration",
+    ]),
 
     /**
      * 初始化数据
@@ -154,6 +166,39 @@ export default {
      */
     playEnd() {
       this.audio.play();
+    },
+
+    /**
+     * 设置播放进度，小数
+     */
+    setProgress(val) {
+      console.log("set progress");
+      this.audio.currentTime = this.audio.duration * val;
+      this.setPlayerProgress(val);
+    },
+    /**
+     * 播放时间更新
+     */
+    timeUpdate(e) {
+      const { currentTime, duration } = e.target;
+      this.setPlayerProgress(currentTime / duration);
+      console.log(currentTime, currentTime / duration);
+      console.log(this.progress)
+    },
+    /**
+     * 设置音量大小
+     */
+    setVolume(val) {
+      console.log("set volume");
+      this.audio.volume = val;
+      this.setPlayerVolume(val);
+    },
+    /**
+     *
+     */
+    durationchange(e) {
+      const { duration } = e.target;
+      this.setDuration(duration);
     },
   },
 };

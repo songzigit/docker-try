@@ -15,8 +15,8 @@
       </div>
       <div class="list flex-col" v-show="showLyric">
         <div class="progress-bar">
-          dsfdsf
-          <Progress percent=""></Progress>
+          <span>图标</span>
+          <Progress percent="1" @progressChange="volumeChange"></Progress>
         </div>
         <div class="constrained">
           <div v-for="(lyric, index) in lyricList" :key="index">
@@ -27,9 +27,12 @@
     </div>
     <div class="play-bar">
       <div class="progress-bar">
-        <span>04:00</span>
-        <div class="progress"></div>
-        <span>04:10</span>
+        <span>{{ curTimeStr }}</span>
+        <Progress
+          :percent="progress"
+          @progressChange="progressChange"
+        ></Progress>
+        <span>{{ durationStr }}</span>
       </div>
       <div class="list play-menu">
         <div>上一首</div>
@@ -49,11 +52,6 @@
 .progress-bar {
   display: flex;
   align-items: center;
-}
-.progress {
-  flex: 1;
-  height: 1px;
-  background-color: red;
 }
 .album {
   height: 100%;
@@ -97,7 +95,13 @@ export default {
     };
   },
   computed: {
-    ...mapState(["songId"]),
+    ...mapState(["songId", "duration", "progress", "volume"]),
+    curTimeStr() {
+      return this.formatTime(this.duration * this.progress);
+    },
+    durationStr() {
+      return this.formatTime(this.duration);
+    },
   },
   watch: {
     songId: function (val, oldVal) {
@@ -223,6 +227,39 @@ export default {
         default:
           break;
       }
+    },
+
+    /**
+     * 播放进度改变
+     */
+    progressChange(val) {
+      this.player.setProgress(val);
+    },
+    /**
+     * 播放音量改变
+     */
+    volumeChange(val) {
+      this.player.setVolume(val);
+    },
+    /**
+     * 时间格式化
+     */
+    formatTime(seconds) {
+      const s = Math.floor(seconds % 60);
+      const m = Math.floor((seconds / 60) % 60);
+      return `${this.padStr(String(m))}:${this.padStr(String(s))}`;
+    },
+    /**
+     * 字符串前用0补齐
+     */
+    padStr(str = "", len = 2) {
+      let res = str;
+      if (str.length < len) {
+        for (let i = str.length; i < len; i++) {
+          res = "0" + res;
+        }
+      }
+      return res;
     },
   },
 };
