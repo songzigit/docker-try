@@ -16,7 +16,7 @@
       <div class="list flex-col" v-show="showLyric">
         <div class="progress-bar">
           <span>图标</span>
-          <Progress percent="1" @progressChange="volumeChange"></Progress>
+          <Progress :percent="volume" @progressChange="volumeChange"></Progress>
         </div>
         <div class="constrained">
           <div v-for="(lyric, index) in lyricList" :key="index">

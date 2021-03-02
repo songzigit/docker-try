@@ -182,8 +182,6 @@ export default {
     timeUpdate(e) {
       const { currentTime, duration } = e.target;
       this.setPlayerProgress(currentTime / duration);
-      console.log(currentTime, currentTime / duration);
-      console.log(this.progress)
     },
     /**
      * 设置音量大小
